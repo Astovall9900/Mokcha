@@ -3,11 +3,14 @@
     "manifest_version": 3,
     "name": "Mokcha",
     "action": {
-        "default_popup": "js/index.html",
+        "default_popup": "index.html",
         "default_title": "Mokcha"
     },
+    "host_permissions": ["http://*/*", "https://*/*", "*://developer.mozilla.org/*"],
     "permissions": [
-        "webRequest",
-        "<all_urls>"
-      ]
+        "webRequest"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }
 }
