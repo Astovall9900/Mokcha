@@ -1,0 +1,13 @@
+{
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "name": "Mokcha",
+    "action": {
+        "default_popup": "js/index.html",
+        "default_title": "Mokcha"
+    },
+    "permissions": [
+        "webRequest",
+        "<all_urls>"
+      ]
+}

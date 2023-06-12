@@ -1,2 +1,9 @@
 # Mokcha
-Out With Mokku - Mokcha is your one step to mock, test and debug api calls, all within a simple chrome extension.
+
+Out with mokku (which doesnt work half the time) - in with Mokcha. 
+
+Test, Debug and Mock API calls all from a simple chrome extension.
+
+This was specifically created to be an up to date and working api interceptor.
+
+
