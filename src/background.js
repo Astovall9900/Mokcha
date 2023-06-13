@@ -1,12 +1,9 @@
 (function() {
     const tabStorage = {};
-    const networkFilters = {
-        urls: [
-            "*://developer.mozilla.org/*"
-        ]
-    };
+    const networkFilters = {urls: ["<all_urls>"]};
 
     chrome.webRequest.onBeforeRequest.addListener((details) => {
+        // console.log(details)
         const { tabId, requestId } = details;
         if (!tabStorage.hasOwnProperty(tabId)) {
             return;
@@ -18,10 +15,12 @@
             startTime: details.timeStamp,
             status: 'pending'
         };
-        console.log(tabStorage[tabId].requests[requestId]);
+        // console.log(tabStorage)
+        // console.log(tabStorage[tabId].requests[requestId]);
     }, networkFilters);
 
     chrome.webRequest.onCompleted.addListener((details) => {
+        // console.log(details, "completed")
         const { tabId, requestId } = details;
         if (!tabStorage.hasOwnProperty(tabId) || !tabStorage[tabId].requests.hasOwnProperty(requestId)) {
             return;
@@ -34,7 +33,7 @@
             requestDuration: details.timeStamp - request.startTime,
             status: 'complete'
         });
-        console.log(tabStorage[tabId].requests[details.requestId]);
+        // console.log(tabStorage[tabId].requests[details.requestId]);
     }, networkFilters);
 
     chrome.webRequest.onErrorOccurred.addListener((details)=> {
@@ -48,7 +47,7 @@
             endTime: details.timeStamp,           
             status: 'error',
         });
-        console.log(tabStorage[tabId].requests[requestId]);
+        // console.log(tabStorage[tabId].requests[requestId]);
     }, networkFilters);
 
     chrome.tabs.onActivated.addListener((tab) => {
@@ -67,5 +66,16 @@
             return;
         }
         tabStorage[tabId] = null;
+    });
+
+    chrome.runtime.onMessage.addListener((msg, sender, response) => {
+        switch (msg.type) {
+            case 'popupInit':
+                response(tabStorage[msg.tabId] ?? {});
+                break;
+            default:
+                response('unknown request');
+                break;
+        }
     });
 }());
